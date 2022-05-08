@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Control Panel</title>
+		<link rel="stylesheet" href="../styles/global.css" />
+		<link rel="stylesheet" href="../styles/control.css" />
+	</head>
+	<body>
+		<div class="content">
+			<div class="panel roster">
+				<h1>Player Roster</h1>
+				<div id="players"></div>
+			</div>
+			<div class="panel preloader">
+				<h1>Song Preloader</h1>
+				<input
+					type="text"
+					placeholder="BeatSaver ID..."
+					id="preloadtext"
+				/>
+				<button id="preloadbutton">Preload</button>
+				<br />
+				<button class="widebutton">Push all to devices</button>
+			</div>
+			<div class="panel devices">
+				<h1>Devices</h1>
+			</div>
+			<div class="panel songmanager">
+				<h1>Song Manager</h1>
+			</div>
+		</div>
+
+		<fieldset class="tools">
+			<legend>TOOLS</legend>
+
+			<button>Player Roster</button>
+			<button>Song Preloader</button>
+			<button>Connected Devices</button>
+			<button>Song Manager</button>
+		</fieldset>
+
+		<div class="woodmark">
+			<p>Powered By Shadow Engine</p>
+			<p>NOT READY FOR PRODUCTION</p>
+		</div>
+
+		<script src="../src/control.js"></script>
+	</body>
+</html>

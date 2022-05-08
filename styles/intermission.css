@@ -1,0 +1,23 @@
+.highlightedtext {
+	margin: 0;
+	text-align: center;
+	margin-top: 400px;
+	font-size: 50pt;
+}
+
+.blurlayer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(50px);
+	z-index: -1;
+}
+
+canvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -2;
+}
