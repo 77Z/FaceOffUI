@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Debug Components</title>
+		<link rel="stylesheet" href="../styles/global.css" />
+	</head>
+	<body>
+		<h1>Debug Components</h1>
+
+		<div id="profholder"></div>
+		<script src="../src/profileHelper.js"></script>
+		<script>
+			document.getElementById('profholder').innerHTML =
+				generateProfileImageHex(
+					'/home/vince/.config/faceoffui/app/profiles/vince.png',
+					'#f00',
+					'#0f0',
+				);
+		</script>
+	</body>
+</html>

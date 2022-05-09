@@ -6,6 +6,7 @@ const { homedir } = require('os');
 
 let controlWindow;
 let displayWindow;
+let componentsWindow;
 
 let configDirectory;
 if (process.platform == 'win32') {
@@ -20,6 +21,7 @@ function startup() {
 	if (!existsSync(configDirectory)) {
 		mkdirSync(configDirectory);
 		mkdirSync(configDirectory + '/cache');
+		mkdirSync(configDirectory + '/profiles');
 		writeFileSync(configDirectory + '/roster.json', '');
 	}
 
@@ -60,6 +62,22 @@ function startup() {
 	controlWindow.loadFile('./dom/control.html');
 	controlWindow.on('closed', () => {
 		controlWindow = null;
+	});
+
+	componentsWindow = new BrowserWindow({
+		x: 10,
+		y: 10,
+		width: 500,
+		height: 500,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+		},
+	});
+
+	componentsWindow.loadFile('./dom/debugComponents.html');
+	componentsWindow.on('closed', () => {
+		componentsWindow = null;
 	});
 }
 

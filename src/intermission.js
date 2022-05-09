@@ -2,11 +2,25 @@ let canvas = document.getElementById('background');
 let ctx = canvas.getContext('2d');
 let possibleColors = ['#f0f', '#0f0', '#00f', '#f00'];
 
+let animationFrameHandle;
+let blobberrunning = true;
+
+function playIntermissionAnimation() {
+	window.requestAnimationFrame(frame);
+	blobberrunning = true;
+}
+
+function stopIntermissionAnimation() {
+	window.cancelAnimationFrame(animationFrameHandle);
+	blobberrunning = false;
+}
+
 reproject();
 
 let blobs = [];
 
 setInterval(function () {
+	if (!blobberrunning) return;
 	addBlob();
 }, 500);
 
@@ -57,6 +71,6 @@ function frame() {
 		c.y -= c.speed;
 		if (c.y < -100) removeBlob(i);
 	}
-	window.requestAnimationFrame(frame);
+	animationFrameHandle = window.requestAnimationFrame(frame);
 }
 frame();

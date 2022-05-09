@@ -7,6 +7,7 @@
 		<title>DISPLAY CLIENT</title>
 		<link rel="stylesheet" href="../styles/global.css" />
 		<link rel="stylesheet" href="../styles/intermission.css" />
+		<link rel="stylesheet" href="../styles/vs.css" />
 	</head>
 	<body>
 		<canvas id="background"></canvas>
@@ -14,6 +15,12 @@
 
 		<h1 class="highlightedtext">Please Stand By!</h1>
 
+		<video id="player" style="display: none"></video>
+		<div id="lefthalf"></div>
+		<div id="righthalf"></div>
+
+		<script src="../src/profileHelper.js"></script>
 		<script src="../src/intermission.js"></script>
+		<script src="../src/vs.js"></script>
 	</body>
 </html>
