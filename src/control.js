@@ -3,6 +3,7 @@ const { homedir } = require('os');
 const https = require('https');
 const fs = require('fs');
 const extract = require('extract-zip');
+const { ipcRenderer } = require('electron');
 
 let configDirectory;
 if (process.platform == 'win32') {
@@ -124,3 +125,24 @@ function playPreview(id) {
 		audio = null; // Unload from memory
 	}, duration * 1000); */
 }
+
+function playerPickerReturn(playerid, playernum) {
+	if (typeof playernum !== 'number')
+		throw new TypeError('playernum must be number');
+	if (typeof playerid !== 'string')
+		throw new TypeError('playerid must be string');
+
+	console.log('Got player ' + playerid + ' set to player ' + playernum);
+}
+
+document.getElementById('playerpicker1').addEventListener('click', () => {
+	ipcRenderer.send('pickplayer', 1);
+});
+
+document.getElementById('playerpicker2').addEventListener('click', () => {
+	ipcRenderer.send('pickplayer', 2);
+});
+
+ipcRenderer.on('playerpicker.return', (_event, id, playerNumber) => {
+	playerPickerReturn(id, playerNumber);
+});

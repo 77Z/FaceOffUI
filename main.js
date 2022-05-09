@@ -22,7 +22,7 @@ function startup() {
 		mkdirSync(configDirectory);
 		mkdirSync(configDirectory + '/cache');
 		mkdirSync(configDirectory + '/profiles');
-		writeFileSync(configDirectory + '/roster.json', '');
+		writeFileSync(configDirectory + '/roster.json', '[]');
 	}
 
 	let displays = electron.screen.getAllDisplays();
@@ -93,4 +93,37 @@ app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
 		app.quit();
 	}
+});
+
+let playerPicker;
+
+ipcMain.on('pickplayer', (_event, playerNumber) => {
+	playerPicker = new BrowserWindow({
+		width: 500,
+		height: 800,
+		alwaysOnTop: true,
+		x: 40,
+		y: 40,
+		resizable: false,
+		minimizable: false,
+		maximizable: false,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+		},
+	});
+
+	playerPicker.loadFile('./dom/playerpicker.html');
+
+	playerPicker.webContents.on('did-finish-load', () => {
+		playerPicker.webContents.send('playernumber', playerNumber);
+	});
+
+	playerPicker.on('closed', () => {
+		playerPicker = null;
+	});
+});
+
+ipcMain.on('pickplayer.MAIN.return', (_event, id, playerNumber) => {
+	controlWindow.webContents.send('playerpicker.return', id, playerNumber);
 });
