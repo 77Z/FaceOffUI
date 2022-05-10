@@ -1,3 +1,15 @@
+const fs = require('fs');
+const { homedir } = require('os');
+const { v4: uuidv4 } = require('uuid');
+
+let configDirectory;
+if (process.platform == 'win32') {
+	configDirectory = homedir() + '/AppData/Roaming/faceoffui/app';
+} else {
+	// Assume UNIX-like
+	configDirectory = homedir() + '/.config/faceoffui/app';
+}
+
 function generateProfileImageHex(image, gradientcolor1, gradientcolor2) {
 	return `<svg
 	width="333"
@@ -44,4 +56,23 @@ function generateProfileImageHex(image, gradientcolor1, gradientcolor2) {
 		/>
 	</defs>
 </svg>`;
+}
+
+function readRoster() {
+	return JSON.parse(fs.readFileSync(configDirectory + '/roster.json'));
+}
+
+function createNewPlayer(name) {
+	const roster = readRoster();
+
+	const newroster = roster;
+	newroster.push({
+		id: uuidv4(),
+		pretty: name,
+	});
+
+	fs.writeFileSync(
+		configDirectory + '/roster.json',
+		JSON.stringify(newroster, null, '\t'),
+	);
 }

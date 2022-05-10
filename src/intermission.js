@@ -1,6 +1,6 @@
 let canvas = document.getElementById('background');
 let ctx = canvas.getContext('2d');
-let possibleColors = ['#f0f', '#0f0', '#00f', '#f00'];
+let possibleColors = ['#f0f'];
 
 let animationFrameHandle;
 let blobberrunning = true;
