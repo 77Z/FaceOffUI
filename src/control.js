@@ -4,6 +4,10 @@ const https = require('https');
 const controlfs = require('fs');
 const extract = require('extract-zip');
 const { ipcRenderer } = require('electron');
+const toastr = require('toastr');
+
+toastr.options.progressBar = true;
+toastr.options.toastClass = 'toastClass';
 
 let controlConfigDirectory;
 if (process.platform == 'win32') {
@@ -14,8 +18,12 @@ if (process.platform == 'win32') {
 	controlConfigDirectory = controlhomedir() + '/.config/faceoffui/app';
 }
 
+// Running vars
 let selectedPlayer1ID = null;
 let selectedPlayer2ID = null;
+
+// Player creation vars
+let profilePictureUploadPath = null;
 
 const api = new BeatSaverAPI({
 	AppName: 'FaceOffUI',
@@ -30,25 +38,6 @@ preloadbutton.addEventListener('click', function () {
 	preloadMap(preloadtext.value);
 });
 
-function getMapDir(id) {
-	// TODO: The checking thing doesn't work
-	// Most functions should use this method because it checks
-	// to see whether the song was preloaded or not, if it wasn't,
-	// it'll download and carry on
-	if (!controlfs.existsSync(controlConfigDirectory + '/cache/' + id))
-		preloadMap(id);
-	return controlConfigDirectory + '/cache/' + id;
-}
-
-function parseMapInfo(id) {
-	const mapdir = getMapDir(id);
-	if (controlfs.existsSync(mapdir + '/info.dat')) {
-		return JSON.parse(controlfs.readFileSync(mapdir + '/info.dat'));
-	} else {
-		return JSON.parse(controlfs.readFileSync(mapdir + '/Info.dat'));
-	}
-}
-
 function preloadMap(id) {
 	let mapdir = controlConfigDirectory + '/cache/' + id;
 
@@ -56,12 +45,19 @@ function preloadMap(id) {
 		console.error(
 			'Song already pre-loaded! if you think this is an error, go delete the map folder',
 		);
+		toastr.error(
+			'Song already pre-loaded! if you think this is an error, go delete the map folder',
+			'Beat Saver Download',
+		);
 		return;
 	}
 
 	api.getMapByID(id)
 		.then((map) => {
 			let downloadURL = map.versions[0].downloadURL;
+			let mapTitle = map.name;
+
+			toastr.info('Located map: ' + mapTitle, 'Beat Saver');
 
 			console.log('Located map: ' + id);
 
@@ -74,6 +70,7 @@ function preloadMap(id) {
 				zipfile.on('finish', () => {
 					zipfile.close();
 					console.log('Download complete!');
+					toastr.info(mapTitle, 'Download complete');
 					extractPreloadedZip(id);
 				});
 			});
@@ -88,6 +85,7 @@ function extractPreloadedZip(id) {
 	try {
 		extract(mapdir + '/map.zip', { dir: mapdir });
 		console.log('Extraction Complete, map is ready for use');
+		toastr.success('Extraction Complete, map is ready for use!');
 	} catch (err) {
 		console.error('Unable to extract file!');
 		console.error(err);
@@ -172,3 +170,76 @@ document.getElementById('playerpicker2').addEventListener('click', () => {
 ipcRenderer.on('playerpicker.return', (_event, id, playerNumber) => {
 	playerPickerReturn(id, playerNumber);
 });
+
+// Roster
+
+document
+	.getElementById('profilePictureUpload')
+	.addEventListener('click', () => {
+		ipcRenderer.send('selectProfilePicture');
+	});
+
+ipcRenderer.on('selectedPFP', (_event, location) => {
+	console.log('selected profile picture: ' + location);
+	toastr.success('Selected a profile picture!');
+	profilePictureUploadPath = location;
+});
+
+ipcRenderer.on('did-not-selectPFP', () => {
+	console.log('Did not select pfp');
+	toastr.warning('Did not select profile picture');
+});
+
+const newPlayerName = document.getElementById('newPlayerName');
+
+document.getElementById('addNewPlayerButton').addEventListener('click', () => {
+	createNewPlayer(newPlayerName.value, profilePictureUploadPath);
+	toastr.success(`Added ${newPlayerName.value} to the roster`);
+	reloadRoster();
+});
+
+document
+	.getElementById('reloadRosterButton')
+	.addEventListener('click', reloadRoster);
+
+const playersUL = document.getElementById('players');
+function reloadRoster() {
+	const roster = readRoster();
+
+	while (playersUL.firstChild) playersUL.removeChild(playersUL.firstChild);
+
+	for (let i = 0; i < roster.length; i++) {
+		let entryLI = document.createElement('li');
+		entryLI.innerHTML = `
+								<img width='80' src='${configDirectory}/profiles/${roster[i].id}.png' />
+								<p>${roster[i].pretty}</p>
+							`;
+		playersUL.appendChild(entryLI);
+	}
+}
+
+reloadRoster();
+
+// Charts
+
+const mapsUL = document.getElementById('maps');
+function reloadMaps() {
+	const maps = getMaps();
+
+	for (let i = 0; i < maps.length; i++) {
+		let entryLI = document.createElement('li');
+		entryLI.innerHTML = `
+								<img width='80' src='${controlConfigDirectory}/cache/${maps[i].id}/${maps[i].infofile._coverImageFilename}' />
+								<div>
+									<span class='bold'>${maps[i].infofile._songName}</span>
+									<br />
+									<span>${maps[i].infofile._songAuthorName} [${maps[i].infofile._levelAuthorName}]</span>
+									<br />
+									<div class='difficultytag'>Expert+</div>
+								</div>
+							`;
+		mapsUL.appendChild(entryLI);
+	}
+}
+
+reloadMaps();

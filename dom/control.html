@@ -7,12 +7,42 @@
 		<title>Control Panel</title>
 		<link rel="stylesheet" href="../styles/global.css" />
 		<link rel="stylesheet" href="../styles/control.css" />
+		<link
+			rel="stylesheet"
+			href="../node_modules/toastr/build/toastr.min.css"
+		/>
 	</head>
 	<body>
 		<div class="content">
 			<div class="panel roster">
 				<h1>Player Roster</h1>
-				<div id="players"></div>
+				<button
+					class="material-icons"
+					title="Upload player image"
+					id="profilePictureUpload"
+				>
+					upload
+				</button>
+				<input
+					type="text"
+					placeholder="New player name.."
+					id="newPlayerName"
+				/>
+				<button
+					class="material-icons"
+					title="Add Player to Roster"
+					id="addNewPlayerButton"
+				>
+					add
+				</button>
+				<button
+					class="material-icons"
+					title="Reload Roster"
+					id="reloadRosterButton"
+				>
+					refresh
+				</button>
+				<ul id="players"></ul>
 			</div>
 			<div class="panel preloader">
 				<h1>Song Preloader</h1>
@@ -24,15 +54,15 @@
 				<button id="preloadbutton">Preload</button>
 				<br />
 				<button class="widebutton">Push all to devices</button>
+				<br />
+				<ul id="maps"></ul>
 			</div>
 			<div class="panel devices">
 				<h1>Devices</h1>
 			</div>
 			<div class="panel songmanager">
 				<h1>Song Manager</h1>
-				<select id="songdropdown">
-					<option value="">Demios</option>
-				</select>
+				<p>Pick a song in the preloader</p>
 				<br />
 				<button id="playerpicker1">[ No Player Selected ]</button>
 				Quest #1
@@ -60,6 +90,7 @@
 			<p>NOT READY FOR PRODUCTION</p>
 		</div>
 
+		<script src="../src/songHelper.js"></script>
 		<script src="../src/profileHelper.js"></script>
 		<script src="../src/control.js"></script>
 	</body>

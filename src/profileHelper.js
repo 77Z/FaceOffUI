@@ -62,14 +62,20 @@ function readRoster() {
 	return JSON.parse(fs.readFileSync(configDirectory + '/roster.json'));
 }
 
-function createNewPlayer(name) {
+function createNewPlayer(name, locationToPfp) {
 	const roster = readRoster();
+	const newplayerID = uuidv4();
 
 	const newroster = roster;
 	newroster.push({
-		id: uuidv4(),
+		id: newplayerID,
 		pretty: name,
 	});
+
+	fs.copyFileSync(
+		locationToPfp,
+		`${configDirectory}/profiles/${newplayerID}.png`,
+	);
 
 	fs.writeFileSync(
 		configDirectory + '/roster.json',

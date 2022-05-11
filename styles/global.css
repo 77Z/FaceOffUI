@@ -11,6 +11,24 @@
 		url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
+.material-icons {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px; /* Preferred icon size */
+	display: inline-block;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+}
+
 body {
 	background: #000;
 	color: #fff;
@@ -29,6 +47,7 @@ input {
 	background: #111;
 	border: 1px solid #000;
 	outline: none;
+	color: #fff;
 	border-radius: 5px;
 }
 
@@ -66,4 +85,12 @@ button:active {
 .widebutton {
 	display: block;
 	width: 100%;
+}
+
+.toastClass {
+	opacity: 1 !important;
+}
+
+.bold {
+	font-weight: bolder;
 }

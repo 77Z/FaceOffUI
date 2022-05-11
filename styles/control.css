@@ -42,3 +42,40 @@ body {
 .roster {
 	width: 500px;
 }
+
+#players {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	max-height: 270px;
+	overflow-y: scroll;
+}
+
+#players li {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+}
+
+#maps {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	max-height: 270px;
+	overflow-y: scroll;
+}
+
+#maps li {
+	display: flex;
+	gap: 20px;
+	text-align: left;
+}
+
+.difficultytag {
+	display: inline-block;
+	background: #ff4500;
+	border-radius: 5px;
+	color: #ffffff;
+	padding: 3px;
+	cursor: pointer;
+}

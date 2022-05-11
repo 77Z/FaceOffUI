@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { mkdirSync, writeFileSync } = require('fs');
 const { existsSync } = require('original-fs');
 const { homedir } = require('os');
@@ -126,4 +126,19 @@ ipcMain.on('pickplayer', (_event, playerNumber) => {
 
 ipcMain.on('pickplayer.MAIN.return', (_event, id, playerNumber) => {
 	controlWindow.webContents.send('playerpicker.return', id, playerNumber);
+});
+
+ipcMain.on('selectProfilePicture', (event) => {
+	dialog
+		.showOpenDialog({
+			properties: ['openFile'],
+		})
+		.then((data) => {
+			if (data.filePaths.length !== 0) {
+				console.log(data.filePaths);
+				event.sender.send('selectedPFP', data.filePaths[0]);
+			} else {
+				event.sender.send('did-not-selectPFP');
+			}
+		});
 });

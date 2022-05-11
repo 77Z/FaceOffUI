@@ -12,6 +12,7 @@
 		"beatsaver-api": "^2.0.4",
 		"electron": "^18.2.0",
 		"extract-zip": "^2.0.1",
+		"toastr": "^2.1.4",
 		"uuid": "^8.3.2"
 	}
 }
