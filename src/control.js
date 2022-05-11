@@ -1,17 +1,21 @@
 const BeatSaverAPI = require('beatsaver-api');
-const { homedir } = require('os');
+const { homedir: controlhomedir } = require('os');
 const https = require('https');
-const fs = require('fs');
+const controlfs = require('fs');
 const extract = require('extract-zip');
 const { ipcRenderer } = require('electron');
 
-let configDirectory;
+let controlConfigDirectory;
 if (process.platform == 'win32') {
-	configDirectory = homedir() + '/AppData/Roaming/faceoffui/app';
+	controlConfigDirectory =
+		controlhomedir() + '/AppData/Roaming/faceoffui/app';
 } else {
 	// Assume UNIX-like
-	configDirectory = homedir() + '/.config/faceoffui/app';
+	controlConfigDirectory = controlhomedir() + '/.config/faceoffui/app';
 }
+
+let selectedPlayer1ID = null;
+let selectedPlayer2ID = null;
 
 const api = new BeatSaverAPI({
 	AppName: 'FaceOffUI',
@@ -31,23 +35,24 @@ function getMapDir(id) {
 	// Most functions should use this method because it checks
 	// to see whether the song was preloaded or not, if it wasn't,
 	// it'll download and carry on
-	if (!fs.existsSync(configDirectory + '/cache/' + id)) preloadMap(id);
-	return configDirectory + '/cache/' + id;
+	if (!controlfs.existsSync(controlConfigDirectory + '/cache/' + id))
+		preloadMap(id);
+	return controlConfigDirectory + '/cache/' + id;
 }
 
 function parseMapInfo(id) {
 	const mapdir = getMapDir(id);
-	if (fs.existsSync(mapdir + '/info.dat')) {
-		return JSON.parse(fs.readFileSync(mapdir + '/info.dat'));
+	if (controlfs.existsSync(mapdir + '/info.dat')) {
+		return JSON.parse(controlfs.readFileSync(mapdir + '/info.dat'));
 	} else {
-		return JSON.parse(fs.readFileSync(mapdir + '/Info.dat'));
+		return JSON.parse(controlfs.readFileSync(mapdir + '/Info.dat'));
 	}
 }
 
 function preloadMap(id) {
-	let mapdir = configDirectory + '/cache/' + id;
+	let mapdir = controlConfigDirectory + '/cache/' + id;
 
-	if (fs.existsSync(mapdir)) {
+	if (controlfs.existsSync(mapdir)) {
 		console.error(
 			'Song already pre-loaded! if you think this is an error, go delete the map folder',
 		);
@@ -60,9 +65,9 @@ function preloadMap(id) {
 
 			console.log('Located map: ' + id);
 
-			fs.mkdirSync(mapdir);
+			controlfs.mkdirSync(mapdir);
 
-			const zipfile = fs.createWriteStream(mapdir + '/map.zip');
+			const zipfile = controlfs.createWriteStream(mapdir + '/map.zip');
 			const request = https.get(downloadURL, (response) => {
 				response.pipe(zipfile);
 
@@ -79,7 +84,7 @@ function preloadMap(id) {
 }
 
 function extractPreloadedZip(id) {
-	let mapdir = configDirectory + '/cache/' + id;
+	let mapdir = controlConfigDirectory + '/cache/' + id;
 	try {
 		extract(mapdir + '/map.zip', { dir: mapdir });
 		console.log('Extraction Complete, map is ready for use');
@@ -133,6 +138,27 @@ function playerPickerReturn(playerid, playernum) {
 		throw new TypeError('playerid must be string');
 
 	console.log('Got player ' + playerid + ' set to player ' + playernum);
+
+	const roster = readRoster();
+
+	switch (playernum) {
+		case 1: {
+			selectedPlayer1ID = playerid;
+			document.getElementById('playerpicker1').innerText = `[ ${
+				findPlayerById(roster, playerid).pretty
+			} ]`;
+			break;
+		}
+		case 2: {
+			selectedPlayer2ID = playerid;
+			document.getElementById('playerpicker2').innerText = `[ ${
+				findPlayerById(roster, playerid).pretty
+			} ]`;
+			break;
+		}
+		default:
+			throw new Error('playernum has to be 1 or 2');
+	}
 }
 
 document.getElementById('playerpicker1').addEventListener('click', () => {

@@ -64,21 +64,21 @@ function startup() {
 		controlWindow = null;
 	});
 
-	componentsWindow = new BrowserWindow({
-		x: 10,
-		y: 10,
-		width: 500,
-		height: 500,
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-		},
-	});
+	// componentsWindow = new BrowserWindow({
+	// 	x: 10,
+	// 	y: 10,
+	// 	width: 500,
+	// 	height: 500,
+	// 	webPreferences: {
+	// 		nodeIntegration: true,
+	// 		contextIsolation: false,
+	// 	},
+	// });
 
-	componentsWindow.loadFile('./dom/debugComponents.html');
-	componentsWindow.on('closed', () => {
-		componentsWindow = null;
-	});
+	// componentsWindow.loadFile('./dom/debugComponents.html');
+	// componentsWindow.on('closed', () => {
+	// 	componentsWindow = null;
+	// });
 }
 
 app.on('ready', () => {

@@ -76,3 +76,9 @@ function createNewPlayer(name) {
 		JSON.stringify(newroster, null, '\t'),
 	);
 }
+
+function findPlayerById(rosterObject, id) {
+	return rosterObject.filter((rosterObject) => {
+		return rosterObject['id'] == id;
+	})[0];
+}
