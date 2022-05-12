@@ -228,6 +228,37 @@ function reloadMaps() {
 
 	for (let i = 0; i < maps.length; i++) {
 		let entryLI = document.createElement('li');
+
+		let difficultytags = '';
+		let beatmapSets = maps[i].infofile._difficultyBeatmapSets;
+
+		// I got sick of writing for loops so we're using foreach now
+		beatmapSets.forEach((mapSet) => {
+			difficultytags += `<div class='mapcharacteristic'>${mapSet._beatmapCharacteristicName}</div>`;
+			mapSet._difficultyBeatmaps.forEach((beatmap) => {
+				if (
+					beatmap.hasOwnProperty('_customData') &&
+					beatmap._customData.hasOwnProperty('_difficultyLabel')
+				) {
+					difficultytags += `<div class='difficultytag'>${beatmap._customData._difficultyLabel}</div>`;
+				} else {
+					difficultytags += `<div class='difficultytag'>${beatmap._difficulty}</div>`;
+				}
+			});
+		});
+
+		// for (let l = 0; l < beatmaps.length; l++) {
+		// 	let beatmap = beatmaps[l];
+		// 	if (
+		// 		beatmap.hasOwnProperty('_customData') &&
+		// 		beatmap._customData.hasOwnProperty('_difficultyLabel')
+		// 	) {
+		// 		difficultytags += `<div class='difficultytag'>${beatmap._customData._difficultyLabel}</div>`;
+		// 	} else {
+		// 		difficultytags += `<div class='difficultytag'>${beatmap._difficulty}</div>`;
+		// 	}
+		// }
+
 		entryLI.innerHTML = `
 								<img width='80' src='${controlConfigDirectory}/cache/${maps[i].id}/${maps[i].infofile._coverImageFilename}' />
 								<div>
@@ -235,7 +266,9 @@ function reloadMaps() {
 									<br />
 									<span>${maps[i].infofile._songAuthorName} [${maps[i].infofile._levelAuthorName}]</span>
 									<br />
-									<div class='difficultytag'>Expert+</div>
+									<div class='difficultytags'>
+										${difficultytags}
+									</div>
 								</div>
 							`;
 		mapsUL.appendChild(entryLI);
