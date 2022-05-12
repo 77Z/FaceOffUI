@@ -69,6 +69,12 @@ body {
 	display: flex;
 	gap: 20px;
 	text-align: left;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: #111;
+	border-radius: 5px;
+	box-sizing: border-box;
+	padding: 10px;
 }
 
 .difficultytag {
