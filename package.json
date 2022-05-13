@@ -9,6 +9,7 @@
 	"author": "Vince Richter",
 	"license": "MIT",
 	"dependencies": {
+		"@devicefarmer/adbkit": "^3.2.3",
 		"beatsaver-api": "^2.0.4",
 		"electron": "^18.2.0",
 		"extract-zip": "^2.0.1",

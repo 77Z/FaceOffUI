@@ -129,3 +129,44 @@ body {
 	padding: 3px;
 	border-radius: 3px;
 }
+
+.devices .device {
+	text-align: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: #111;
+	border-radius: 5px;
+	box-sizing: border-box;
+	padding: 10px;
+	position: relative;
+}
+
+.device .statusbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 6px;
+	background: #fff;
+	border-radius: 5px 0 0 5px;
+}
+
+.statusbar-connected {
+	background: #0f0 !important;
+}
+
+.statusbar-error {
+	animation: blink-error 1s linear infinite;
+}
+
+@keyframes blink-error {
+	0% {
+		background: #ff0000;
+	}
+	50% {
+		background: #3a0000;
+	}
+	100% {
+		background: #ff0000;
+	}
+}

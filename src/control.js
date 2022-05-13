@@ -325,3 +325,22 @@ function selectSong(id, beatmapCharacteristicName, beatmap) {
 			<span>${beatmapInfo._noteJumpMovementSpeed} NJS</span>
 		</div>`;
 }
+
+document.getElementById('playButton').addEventListener('click', () => {
+	if (!selectedPlayer1ID) {
+		toastr.error("Player 1 isn't set!");
+		return;
+	}
+
+	if (!selectedPlayer2ID) {
+		toastr.error("Player 2 isn't set!");
+		return;
+	}
+
+	if (!selectedSong.id) {
+		toastr.error("Song isn't set!");
+		return;
+	}
+
+	toastr.success('Attempting to play!');
+});
