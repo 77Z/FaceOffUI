@@ -21,6 +21,11 @@ if (process.platform == 'win32') {
 // Running vars
 let selectedPlayer1ID = null;
 let selectedPlayer2ID = null;
+let selectedSong = {
+	id: null,
+	beatmapCharacteristicName: null,
+	beatmap: null,
+};
 
 // Player creation vars
 let profilePictureUploadPath = null;
@@ -240,9 +245,9 @@ function reloadMaps() {
 					beatmap.hasOwnProperty('_customData') &&
 					beatmap._customData.hasOwnProperty('_difficultyLabel')
 				) {
-					difficultytags += `<div class='difficultytag'>${beatmap._customData._difficultyLabel}</div>`;
+					difficultytags += `<div class='difficultytag' onclick="selectSong('${maps[i].id}','${mapSet._beatmapCharacteristicName}','${beatmap._difficultyRank}')">${beatmap._customData._difficultyLabel}</div>`;
 				} else {
-					difficultytags += `<div class='difficultytag'>${beatmap._difficulty}</div>`;
+					difficultytags += `<div class='difficultytag' onclick="selectSong('${maps[i].id}','${mapSet._beatmapCharacteristicName}','${beatmap._difficultyRank}')">${beatmap._difficulty}</div>`;
 				}
 			});
 		});
@@ -276,3 +281,47 @@ function reloadMaps() {
 }
 
 reloadMaps();
+
+document
+	.getElementById('reloadSongsButton')
+	.addEventListener('click', reloadMaps);
+
+function selectSong(id, beatmapCharacteristicName, beatmap) {
+	selectedSong.id = id;
+	selectedSong.beatmapCharacteristicName = beatmapCharacteristicName;
+	selectedSong.beatmap = beatmap;
+
+	const mapinfo = parseMapInfo(id);
+	const beatmapSets = mapinfo._difficultyBeatmapSets;
+	// Should I use filter for this? Yes, but i'm not good at that yet, so this is my backup
+	let beatmapSetInfo = null;
+	for (let i = 0; i < beatmapSets.length; i++) {
+		if (
+			beatmapSets[i]._beatmapCharacteristicName ==
+			beatmapCharacteristicName
+		) {
+			beatmapSetInfo = beatmapSets[i]._difficultyBeatmaps;
+			break;
+		}
+	}
+
+	let beatmapInfo = null;
+	for (let i = 0; i < beatmapSetInfo.length; i++) {
+		if (beatmapSetInfo[i]._difficultyRank == beatmap) {
+			beatmapInfo = beatmapSetInfo[i];
+		}
+	}
+
+	toastr.success('Selected song ' + mapinfo._songName);
+
+	document.getElementById(
+		'currentlySelectedSong',
+	).innerHTML = `<img src="${controlConfigDirectory}/cache/${id}/${mapinfo._coverImageFilename}" />
+		<div>
+			<p class="bold songname">${mapinfo._songName} ${mapinfo._songSubName}</p>
+			<p>${mapinfo._songAuthorName} [${mapinfo._levelAuthorName}]</p>
+			<span class="diffTag">${beatmapInfo._difficulty}</span>
+			<span>${mapinfo._beatsPerMinute} BPM</span>
+			<span>${beatmapInfo._noteJumpMovementSpeed} NJS</span>
+		</div>`;
+}

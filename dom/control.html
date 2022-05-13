@@ -53,6 +53,14 @@
 				/>
 				<button id="preloadbutton">Preload</button>
 				<br />
+				<button
+					class="material-icons"
+					title="Reload Songs"
+					id="reloadSongsButton"
+				>
+					refresh
+				</button>
+				<br />
 				<button class="widebutton">Sync to devices</button>
 				<br />
 				<ul id="maps"></ul>
@@ -65,7 +73,17 @@
 			</div>
 			<div class="panel songmanager">
 				<h1>Song Manager</h1>
-				<p>Pick a song in the preloader</p>
+				<div id="currentlySelectedSong">
+					<!-- <p>Pick a song in the preloader</p> -->
+					<img src="../media/benprof.png" />
+					<div>
+						<p class="bold songname">Song Name ()</p>
+						<p>Song author [Mapper]</p>
+						<span class="diffTag">Diff</span>
+						<span>120 BPM</span>
+						<span>20 NJS</span>
+					</div>
+				</div>
 				<br />
 				<button id="playerpicker1">[ No Player Selected ]</button>
 				Quest #1
