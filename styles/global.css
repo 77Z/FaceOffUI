@@ -11,6 +11,22 @@
 		url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
+@font-face {
+	font-family: 'Kanit Thicc';
+	src: url(../fonts/Kanit/Kanit-BlackItalic.ttf);
+}
+
+@font-face {
+	font-family: 'Kanit';
+	src: url(../fonts/Kanit/Kanit-Regular.ttf);
+}
+
+@font-face {
+	font-family: 'Kanit';
+	src: url(../fonts/Kanit/Kanit-Italic.ttf);
+	font-style: italic;
+}
+
 .material-icons {
 	font-family: 'Material Icons';
 	font-weight: normal;
