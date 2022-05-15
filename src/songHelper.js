@@ -49,3 +49,40 @@ function getMaps() {
 
 	return returnArray;
 }
+
+function playPreview(id) {
+	const mapDir = getMapDir(id);
+	const mapinfo = parseMapInfo(id);
+
+	let audio = new Audio(mapDir + '/' + mapinfo._songFilename);
+	audio.currentTime = mapinfo._previewStartTime;
+	audio.play();
+
+	let duration = mapinfo._previewDuration;
+
+	// Cap off max preview time for songs like 1fb94 that go on for 77 SECONDS
+	if (duration > 17) duration = 12;
+	duration = duration - 2; // Subtract 2 seconds to start cutoff early
+
+	// Fade out audio, for hard cutoff, use below commented method
+
+	setTimeout(() => {
+		let fadeAudio = setInterval(() => {
+			// When volume is zero cut off audio completely and unload
+			if (audio.volume == 0.0) {
+				clearInterval(fadeAudio);
+				audio.pause();
+				audio = null;
+				return;
+			}
+
+			if (audio.volume - 0.1 < 0) audio.volume = 0;
+			else audio.volume -= 0.1;
+		}, 200);
+	}, duration * 1000);
+
+	/* setTimeout(() => {
+		audio.pause();
+		audio = null; // Unload from memory
+	}, duration * 1000); */
+}

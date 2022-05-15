@@ -77,6 +77,7 @@ body {
 	border-radius: 5px;
 	box-sizing: border-box;
 	padding: 10px;
+	position: relative;
 }
 
 .difficultytags {
@@ -169,4 +170,11 @@ body {
 	100% {
 		background: #ff0000;
 	}
+}
+
+.previewbutton {
+	padding: 5px;
+	position: absolute;
+	top: 2px;
+	right: 2px;
 }
