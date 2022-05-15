@@ -6,7 +6,7 @@ const { homedir } = require('os');
 
 let controlWindow;
 let displayWindow;
-let componentsWindow;
+let lightSyncWindow;
 
 let configDirectory;
 if (process.platform == 'win32') {
@@ -64,21 +64,21 @@ function startup() {
 		controlWindow = null;
 	});
 
-	// componentsWindow = new BrowserWindow({
-	// 	x: 10,
-	// 	y: 10,
-	// 	width: 500,
-	// 	height: 500,
-	// 	webPreferences: {
-	// 		nodeIntegration: true,
-	// 		contextIsolation: false,
-	// 	},
-	// });
+	lightSyncWindow = new BrowserWindow({
+		x: 10,
+		y: 10,
+		width: 500,
+		height: 500,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+		},
+	});
 
-	// componentsWindow.loadFile('./dom/debugComponents.html');
-	// componentsWindow.on('closed', () => {
-	// 	componentsWindow = null;
-	// });
+	lightSyncWindow.loadFile('./dom/lightSync.html');
+	lightSyncWindow.on('closed', () => {
+		lightSyncWindow = null;
+	});
 }
 
 app.on('ready', () => {

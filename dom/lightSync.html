@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Debug Components</title>
+		<link rel="stylesheet" href="../styles/global.css" />
+		<style>
+			.light {
+				display: inline-block;
+				background: #fff;
+				height: 100px;
+				width: 100px;
+				color: Black;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Light Sync</h1>
+		<fieldset>
+			<legend>Debug section</legend>
+
+			<input
+				type="text"
+				placeholder="Put a preloaded song id here"
+				value="1f074"
+				id="dbgloadinp"
+			/>
+			<button id="dbgloadbtn">Debug Load</button>
+			<p id="songstatus">No Song loaded</p>
+			<button id="playbutton">Play</button>
+
+			<br /><br /><br />
+			<div class="light" id="back-lasers">Back Lasers</div>
+			<div class="light" id="big-rings">Big Rings</div>
+			<div class="light" id="left-rotating-lasers">
+				Left Rotating Lasers
+			</div>
+			<div class="light" id="right-rotating-lasers">
+				Right Rotating Lasers
+			</div>
+			<div class="light" id="center-lights">Center Lights</div>
+		</fieldset>
+
+		<script src="../src/songHelper.js"></script>
+		<script src="../src/lightSync.js"></script>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+Light Events:
+	0 Back Lasers
+	1 Big Rings
+	2 Left Rotating Lasers
+	3 Right Rotating Lasers
+	4 Center Lights
+	8 Ring Rotation
+	9 Ring Zoom
+	12 Left Laser Speed
+	13 Right Laser Speed
+	5 Boost Lights
+
+Effects:
+	0: off
+	1: on blue
+	2: flash blue
+	3: fade blue
+	5: on red
+	6: flash red
+	7: fade red

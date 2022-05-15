@@ -22,10 +22,10 @@ function getMapDir(id) {
 
 function parseMapInfo(id) {
 	const mapdir = getMapDir(id);
-	if (controlfs.existsSync(mapdir + '/info.dat')) {
-		return JSON.parse(controlfs.readFileSync(mapdir + '/info.dat'));
+	if (songhelperfs.existsSync(mapdir + '/info.dat')) {
+		return JSON.parse(songhelperfs.readFileSync(mapdir + '/info.dat'));
 	} else {
-		return JSON.parse(controlfs.readFileSync(mapdir + '/Info.dat'));
+		return JSON.parse(songhelperfs.readFileSync(mapdir + '/Info.dat'));
 	}
 }
 
