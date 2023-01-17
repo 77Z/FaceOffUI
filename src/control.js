@@ -308,5 +308,15 @@ document.getElementById('playButton').addEventListener('click', () => {
 		return;
 	}
 
-	toastr.success('Attempting to play!');
+	toastr.info('Attempting to play!');
+	ipcRenderer.send(
+		'controlpanel.playsong',
+		selectedPlayer1ID,
+		selectedPlayer2ID,
+		selectedSong,
+	);
+});
+
+ipcRenderer.on('playPreview', (_e, songid) => {
+	playPreview(songid);
 });

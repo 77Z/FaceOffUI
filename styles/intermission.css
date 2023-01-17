@@ -15,7 +15,7 @@
 	z-index: -1;
 }
 
-canvas {
+#background {
 	position: fixed;
 	top: 0;
 	left: 0;

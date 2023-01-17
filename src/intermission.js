@@ -39,7 +39,8 @@ function getRandomRange(min, max) {
 function addBlob() {
 	let blob = {
 		x: Math.floor(getRandomRange(0, window.innerWidth)),
-		y: window.innerHeight + 100,
+		y: window.innerHeight + 170,
+		size: Math.floor(getRandomRange(70, 170)),
 		color: possibleColors[
 			Math.floor(Math.random() * possibleColors.length)
 		],
@@ -58,7 +59,7 @@ function render() {
 		let c = blobs[i];
 		ctx.fillStyle = c.color;
 		ctx.beginPath();
-		ctx.arc(c.x, c.y, 100, 0, 2 * Math.PI);
+		ctx.arc(c.x, c.y, c.size, 0, 2 * Math.PI);
 		ctx.fill();
 	}
 }
@@ -69,7 +70,7 @@ function frame() {
 	for (let i = 0; i < blobs.length; i++) {
 		let c = blobs[i];
 		c.y -= c.speed;
-		if (c.y < -100) removeBlob(i);
+		if (c.y < -170) removeBlob(i);
 	}
 	animationFrameHandle = window.requestAnimationFrame(frame);
 }

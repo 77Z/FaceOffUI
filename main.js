@@ -142,3 +142,19 @@ ipcMain.on('selectProfilePicture', (event) => {
 			}
 		});
 });
+
+ipcMain.on(
+	'controlpanel.playsong',
+	(_e, selectedPlayer1ID, selectedPlayer2ID, selectedSong) => {
+		displayWindow.webContents.send(
+			'controlpanel.MAIN.playsong',
+			selectedPlayer1ID,
+			selectedPlayer2ID,
+			selectedSong,
+		);
+	},
+);
+
+ipcMain.on('playPreview', (_e, songid) => {
+	controlWindow.webContents.send('playPreview', songid);
+});

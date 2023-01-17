@@ -1,7 +1,7 @@
 video {
 	position: fixed;
 	top: 0;
-	left: 0;
+	left: 100%;
 	height: 100%;
 	width: 100%;
 }
@@ -12,7 +12,7 @@ video {
 	top: 100px; */
 	top: -500px;
 	left: 400px;
-	transition: 0.75s linear top;
+	transition: 0.667s linear;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -24,7 +24,7 @@ video {
 	bottom: 100px; */
 	right: 400px;
 	bottom: -500px;
-	transition: 0.75s linear;
+	transition: 0.667s linear;
 	display: flex;
 	flex-direction: column-reverse;
 	align-items: center;
@@ -33,4 +33,10 @@ video {
 .playername {
 	font-family: 'Kanit Thicc';
 	font-size: 100px;
+}
+
+#videocanvas {
+	position: fixed;
+	top: 0;
+	left: 0;
 }

@@ -71,4 +71,5 @@
 
 .main-game-screen .songcard div .songtitle {
 	font-weight: 900;
+	display: block;
 }
